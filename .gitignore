@@ -1,0 +1,56 @@
+# Project-local generated/reference payloads
+tools/
+instruction/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Node / package managers
+node_modules/
+dist/
+build/
+.turbo/
+.next/
+.cache/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
