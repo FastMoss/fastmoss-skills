@@ -50,8 +50,26 @@ Runtime references live in `references/`:
 
 Install this skill into any AI client that supports local skill folders:
 
+### Quick Commands
+
+For Claude-compatible local skill folders:
+
 ```bash
-npx -y @fastmoss/fastmoss-skills install --dest "$AI_SKILLS_DIR"
+npx -y @fastmoss/fastmoss-skills install --client claude
+```
+
+To see built-in examples and options:
+
+```bash
+npx -y @fastmoss/fastmoss-skills install --help
+```
+
+### Custom Skills Directory
+
+For other AI clients, pass the skills directory explicitly:
+
+```bash
+npx -y @fastmoss/fastmoss-skills install --dest "$HOME/.your-ai-client/skills"
 ```
 
 You can also set the destination once through an environment variable:
@@ -64,7 +82,7 @@ AI_SKILLS_DIR=/path/to/your/ai-client/skills \
 To replace an existing installation:
 
 ```bash
-npx -y @fastmoss/fastmoss-skills install --dest "$AI_SKILLS_DIR" --force
+npx -y @fastmoss/fastmoss-skills install --client claude --force
 ```
 
 Restart or reload your AI client after installation so the skill is discovered. FastMoss MCP must also be installed and connected for live TikTok Shop data analysis.

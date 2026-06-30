@@ -1,7 +1,6 @@
 # Project-local generated/reference payloads
 tools/
 instruction/
-test/
 
 # OS files
 .DS_Store

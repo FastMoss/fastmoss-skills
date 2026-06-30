@@ -6,6 +6,10 @@ const path = require("node:path");
 
 const PACKAGE_NAME = "fastmoss-skills";
 const MCP_GUIDE_URL = "https://developers.fastmoss.com/mcp/overview.html";
+const CLIENT_PRESETS = {
+  claude: "~/.claude/skills",
+  "claude-code": "~/.claude/skills",
+};
 const PAYLOAD_ENTRIES = [
   "SKILL.md",
   "references",
@@ -19,10 +23,16 @@ function usage() {
     "FastMoss Skills installer",
     "",
     "Usage:",
+    "  fastmoss-skills install --client claude [--force]",
     "  fastmoss-skills install --dest <AI_CLIENT_SKILLS_DIR> [--force]",
     "  AI_SKILLS_DIR=<AI_CLIENT_SKILLS_DIR> fastmoss-skills install [--force]",
     "",
+    "Quick install examples:",
+    "  npx -y @fastmoss/fastmoss-skills install --client claude",
+    "  npx -y @fastmoss/fastmoss-skills install --dest \"$HOME/.your-ai-client/skills\"",
+    "",
     "Options:",
+    "  --client <name>  Install to a known client preset. Supported: claude, claude-code.",
     "  --dest <dir>   Directory that contains AI client skill folders.",
     "  --force        Replace an existing fastmoss-skills installation.",
     "  -h, --help     Show this help message.",
@@ -34,6 +44,7 @@ function parseArgs(argv) {
   const command = args[0] && !args[0].startsWith("-") ? args.shift() : "install";
   const options = {
     command,
+    client: undefined,
     dest: undefined,
     force: false,
     help: false,
@@ -45,6 +56,11 @@ function parseArgs(argv) {
       options.help = true;
     } else if (arg === "--force") {
       options.force = true;
+    } else if (arg === "--client") {
+      options.client = args[i + 1];
+      i += 1;
+    } else if (arg.startsWith("--client=")) {
+      options.client = arg.slice("--client=".length);
     } else if (arg === "--dest") {
       options.dest = args[i + 1];
       i += 1;
@@ -58,17 +74,30 @@ function parseArgs(argv) {
   return options;
 }
 
-function expandHome(inputPath) {
+function expandHome(inputPath, env = process.env) {
   if (!inputPath) {
     return inputPath;
   }
+  const homeDir = env.HOME || os.homedir();
   if (inputPath === "~") {
-    return os.homedir();
+    return homeDir;
   }
   if (inputPath.startsWith(`~${path.sep}`)) {
-    return path.join(os.homedir(), inputPath.slice(2));
+    return path.join(homeDir, inputPath.slice(2));
   }
   return inputPath;
+}
+
+function resolveClientDest(client) {
+  if (!client) {
+    return undefined;
+  }
+  const normalized = client.toLowerCase();
+  const dest = CLIENT_PRESETS[normalized];
+  if (!dest) {
+    throw new Error(`Unknown client preset: ${client}. Supported presets: ${Object.keys(CLIENT_PRESETS).join(", ")}.`);
+  }
+  return dest;
 }
 
 function copyPayload(sourceRoot, targetRoot) {
@@ -87,13 +116,14 @@ function copyPayload(sourceRoot, targetRoot) {
 
 function install(options, env = process.env) {
   const destFromEnv = env.AI_SKILLS_DIR;
-  const dest = options.dest || destFromEnv;
+  const destFromClient = resolveClientDest(options.client);
+  const dest = options.dest || destFromClient || destFromEnv;
   if (!dest) {
-    throw new Error("Missing destination. Pass --dest <dir> or set AI_SKILLS_DIR.");
+    throw new Error("Missing destination. Use --client claude, pass --dest <dir>, or set AI_SKILLS_DIR.");
   }
 
   const sourceRoot = path.resolve(__dirname, "..");
-  const skillsDir = path.resolve(expandHome(dest));
+  const skillsDir = path.resolve(expandHome(dest, env));
   const targetRoot = path.join(skillsDir, PACKAGE_NAME);
 
   if (fs.existsSync(targetRoot)) {
