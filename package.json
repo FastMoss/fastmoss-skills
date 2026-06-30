@@ -1,6 +1,6 @@
 {
   "name": "@fastmoss/fastmoss-skills",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "FastMoss Skills for AI clients using FastMoss MCP.",
   "license": "MIT",
   "bin": {
