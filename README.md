@@ -46,17 +46,35 @@ Runtime references live in `references/`:
 | `references/fm-video-brief.md` | Video deconstruction, hook strategy, short-video planning, and creator shooting briefs. |
 | `tools/fastmoss-mcp-tools-EN.json` | FastMoss MCP tool metadata used for documentation and reference. |
 
-## Install From GitHub
+## Install With npx
 
-Install this skill from GitHub into any AI client that supports local skill folders:
+Install this skill into any AI client that supports local skill folders:
+
+```bash
+npx -y @fastmoss/fastmoss-skills install --dest "$AI_SKILLS_DIR"
+```
+
+You can also set the destination once through an environment variable:
+
+```bash
+AI_SKILLS_DIR=/path/to/your/ai-client/skills \
+  npx -y @fastmoss/fastmoss-skills install
+```
+
+To replace an existing installation:
+
+```bash
+npx -y @fastmoss/fastmoss-skills install --dest "$AI_SKILLS_DIR" --force
+```
+
+Restart or reload your AI client after installation so the skill is discovered. FastMoss MCP must also be installed and connected for live TikTok Shop data analysis.
+
+### Alternative: Install From GitHub
+
+If you prefer not to use npm, clone the repository and move or symlink it into your AI client's skills directory:
 
 ```bash
 git clone https://github.com/FastMoss/fastmoss-skills.git
-```
-
-Then move or symlink the cloned folder into your AI client's skills directory:
-
-```bash
 mkdir -p "$AI_SKILLS_DIR"
 ln -s "$(pwd)/fastmoss-skills" "$AI_SKILLS_DIR/fastmoss-skills"
 ```
@@ -68,8 +86,6 @@ repo: FastMoss/fastmoss-skills
 path: .
 name: fastmoss-skills
 ```
-
-Restart or reload your AI client after installation so the skill is discovered.
 
 ## Supported Business Capabilities
 

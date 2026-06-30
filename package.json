@@ -1,0 +1,23 @@
+{
+  "name": "@fastmoss/fastmoss-skills",
+  "version": "0.1.0",
+  "description": "FastMoss Skills for AI clients using FastMoss MCP.",
+  "license": "MIT",
+  "bin": {
+    "fastmoss-skills": "bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "SKILL.md",
+    "references/",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/install.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
