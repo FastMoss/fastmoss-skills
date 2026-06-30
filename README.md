@@ -50,6 +50,26 @@ Runtime references live in `references/`:
 
 Install this skill into any AI client that supports local skill folders:
 
+### Prerequisites
+
+Before running the `npx` command, make sure you have:
+
+- Node.js LTS installed. Node.js includes `npm` and `npx`; Node.js 18 or later is recommended.
+- Network access to the npm registry, because `npx` downloads `@fastmoss/fastmoss-skills` on demand.
+- An AI client that supports local skill folders.
+- A target skills directory. New users can use the `--client claude` quick command below; other clients can pass `--dest`.
+- FastMoss MCP installed and connected if you want live TikTok Shop data analysis. The skill can be installed without MCP, but live data tools require MCP.
+
+Check your local environment:
+
+```bash
+node --version
+npm --version
+npx --version
+```
+
+If these commands are missing, install Node.js LTS from [nodejs.org](https://nodejs.org/) first. You do not need to install this package globally.
+
 ### Quick Commands
 
 For Claude-compatible local skill folders:
